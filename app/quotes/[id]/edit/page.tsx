@@ -9,9 +9,11 @@ export default async function EditQuotePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const quote = getQuoteById(Number(id));
+  const [quote, settings] = await Promise.all([
+    getQuoteById(Number(id)),
+    getSettings(),
+  ]);
   if (!quote) notFound();
-  const settings = getSettings();
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">

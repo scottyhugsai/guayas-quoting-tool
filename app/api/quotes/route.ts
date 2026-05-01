@@ -3,7 +3,7 @@ import { calculateTotals } from '@/lib/calculations';
 
 export async function GET() {
   try {
-    const quotes = getAllQuotes();
+    const quotes = await getAllQuotes();
     return Response.json(quotes);
   } catch (err) {
     console.error(err);
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
     const totals = calculateTotals(materials ?? [], labor_hours ?? 0, labor_rate ?? 75, markup_percent ?? 20);
 
-    const quote = createQuote({
+    const quote = await createQuote({
       client_name, address, phone, email, service_type,
       square_footage: square_footage ?? null,
       materials: materials ?? [],

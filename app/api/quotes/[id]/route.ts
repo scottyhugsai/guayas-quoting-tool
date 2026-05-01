@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const quote = getQuoteById(Number(id));
+    const quote = await getQuoteById(Number(id));
     if (!quote) return Response.json({ error: 'Not found' }, { status: 404 });
     return Response.json(quote);
   } catch (err) {
@@ -24,7 +24,7 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
 
-    const existing = getQuoteById(Number(id));
+    const existing = await getQuoteById(Number(id));
     if (!existing) return Response.json({ error: 'Not found' }, { status: 404 });
 
     const materials = body.materials ?? existing.materials;
@@ -33,8 +33,7 @@ export async function PUT(
     const markup_percent = body.markup_percent ?? existing.markup_percent;
 
     const totals = calculateTotals(materials, labor_hours, labor_rate, markup_percent);
-
-    const updated = updateQuote(Number(id), { ...body, materials, ...totals });
+    const updated = await updateQuote(Number(id), { ...body, materials, ...totals });
     return Response.json(updated);
   } catch (err) {
     console.error(err);
@@ -48,9 +47,9 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const existing = getQuoteById(Number(id));
+    const existing = await getQuoteById(Number(id));
     if (!existing) return Response.json({ error: 'Not found' }, { status: 404 });
-    deleteQuote(Number(id));
+    await deleteQuote(Number(id));
     return Response.json({ success: true });
   } catch (err) {
     console.error(err);

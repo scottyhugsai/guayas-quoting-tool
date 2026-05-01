@@ -2,7 +2,7 @@ import { getSettings, updateSettings } from '@/lib/db';
 
 export async function GET() {
   try {
-    const settings = getSettings();
+    const settings = await getSettings();
     return Response.json(settings);
   } catch (err) {
     console.error(err);
@@ -13,8 +13,8 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    updateSettings(body);
-    const settings = getSettings();
+    await updateSettings(body);
+    const settings = await getSettings();
     return Response.json(settings);
   } catch (err) {
     console.error(err);

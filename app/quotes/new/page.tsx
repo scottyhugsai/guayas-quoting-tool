@@ -1,8 +1,10 @@
 import QuoteForm from '@/components/QuoteForm';
 import { getSettings } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 export default async function NewQuotePage() {
-  const settings = getSettings();
+  const settings = await getSettings();
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
