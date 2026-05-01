@@ -15,8 +15,6 @@ export async function GET() {
     const monthlyRevenue = await pool.query(`
       SELECT
         TO_CHAR(DATE_TRUNC('month', paid_at), 'Mon') AS month,
-        EXTRACT(YEAR FROM paid_at) AS year,
-        EXTRACT(MONTH FROM paid_at) AS month_num,
         SUM(amount) AS revenue
       FROM invoices
       WHERE status = 'paid' AND paid_at >= NOW() - INTERVAL '12 months'
